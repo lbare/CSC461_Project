@@ -21,7 +21,7 @@ def extract_frames(input_path, output_dir):
         .run()
     )
 
-def extract_i_frames(input_path, output_dir):
+def extract_iframes(input_path, output_dir):
     os.makedirs(output_dir, exist_ok=True)
     image_paths = []
     (
@@ -64,9 +64,12 @@ def convert_to_mp4(input_path):
     )
 
 def datamosh_prep(input_video):
+
+    clean_workspace()
+
     avi_video_path = "input_video.avi"
     frames_dir = "frames"
-    iframes_dir = "i_frames"
+    iframes_dir = "iframes"
 
     # Convert to AVI
     convert_video_to_avi(input_video, avi_video_path)
@@ -75,7 +78,7 @@ def datamosh_prep(input_video):
     extract_frames(avi_video_path, frames_dir)
 
     # Extract I-Frames and get their paths
-    iframe_image_paths = extract_i_frames(avi_video_path, iframes_dir)
+    iframe_image_paths = extract_iframes(avi_video_path, iframes_dir)
     return iframe_image_paths
 
 
@@ -88,13 +91,13 @@ def get_selected_image(evt: gr.SelectData):
     return selected_image_name
 
 def delete_iframe(file_name, log_message):
-    os.remove(f"i_frames/{file_name}")
+    os.remove(f"iframes/{file_name}")
     os.remove(f"frames/f_{file_name.split('_')[1].split('.')[0]}.raw")
-    return f"{log_message}\nDeleted i_frames/{file_name}"
+    return f"{log_message}\nDeleted iframes/{file_name}"
 
 def clean_workspace():
-    for file in os.listdir("i_frames"):
-        os.remove(f"i_frames/{file}")
+    for file in os.listdir("iframes"):
+        os.remove(f"iframes/{file}")
     for file in os.listdir("frames"):
         os.remove(f"frames/{file}")
     for file in os.listdir("."):
