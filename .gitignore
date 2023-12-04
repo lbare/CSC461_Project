@@ -1,4 +1,6 @@
 *.avi
 *.mp4
-/frames
-/i_frames
+# /frames
+# /i_frames
+*.jpg
+*.raw
